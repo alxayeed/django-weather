@@ -7,21 +7,26 @@ def index(request):
 	city = request.POST.get('city')
 	r = requests.get(url.format(city)).json()
 	print(r)
-
 	
-
-	city_weather = {
-		'city':city,
-		'icon':r['weather'][0]['icon'],
-		'temperature':r['main']['temp'],
-		'description':r['weather'][0]['description'],
-		'Wind':r['wind']['speed'],
-		'Pressure':r['main']['pressure'],
-		'Humidity':r['main']['humidity'],
-		'Sunrise':r['sys']['sunrise'],
-		'Sunset':r['sys']['sunset'],
-		'Lon':r['coord']['lon'],
-		'Lat':r['coord']['lat']
+	try:
+		city_weather = {
+			'cod':r['cod'],
+			'city':city,
+			'icon':r['weather'][0]['icon'],
+			'temperature':r['main']['temp'],
+			'description':r['weather'][0]['description'],
+			'Wind':r['wind']['speed'],
+			'Pressure':r['main']['pressure'],
+			'Humidity':r['main']['humidity'],
+			'Sunrise':r['sys']['sunrise'],
+			'Sunset':r['sys']['sunset'],
+			'Lon':r['coord']['lon'],
+			'Lat':r['coord']['lat']
+			
+			}
+	except KeyError:
+		city_weather = {
+		'cod': r['cod']
 		}
 
 	return render(request,'weather/index.html',{'city_weather':city_weather})

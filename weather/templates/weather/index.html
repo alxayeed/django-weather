@@ -46,11 +46,11 @@
             <div class="columns">
                 
                 <div class="column is-offset-4 is-4">
-                   {% if city_weather.city != None %}
+                   {% if city_weather.cod == 200 %}
                     <div class="box">
                         <div class="bg-dark">
 
-                        <h1 style="text-align: center;size:a5;"><b> Weather in  {{ city_weather.city }}</b></h1>
+                        <h1 style="text-align: center;"><b> Weather in  {{ city_weather.city }}</b></h1>
                                     <div style="height: 50%;width: 50%">
                                     <img src="https://openweathermap.org/img/wn/{{ city_weather.icon }}.png" alt="Image">
                                     </div>
@@ -67,8 +67,10 @@
                                
                         </div>
                         </article>
+                        {% elif city_weather.cod == '404' %}
+                        <h1>Please Enter a valid City Name</h1>
                         {% else %}
-                            <h1>Know The weather of Your city today!</h1>
+                            <h1>{{city_weather.cod}}</h1>
                         {% endif %}
                     </div>
                     
@@ -83,8 +85,7 @@
     
     
      
-    <footer class="footer">
-    </footer>
+    
 </body>
 
 </html>
