@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,55 +8,61 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Django Weather</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <!-- Bootstrap CSS File -->
+  <link href="{% static '/lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+  <!-- Main Stylesheet File -->
+  <link href="{% static '/css/style.css' %}" rel="stylesheet">
 </head>
+
+
 
 <body>
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="title" style="text-align: center">
                     What's the weather like?
                 </h1>
             </div>
         </div>
     </section>
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-offset-4 is-4">
-                    <form action="{% url 'index' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="field has-addons">
-                            <div class="form-control">
-                                <input type="text" name="city">
-                            </div>
-                            <div class="control">
-                                <button type="submit" class="button is-info">
-                                    Find City
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+<div style="position:center;padding-top: 5%;padding-left:37%;max-width: 63%">
+
+  <form action="{% url 'index' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" name="city" class="form-control" >
+    </div>
+    <div >
+     <button class="btn btn-info btn-lg btn-block"  type="submit">Seacrh a City</button>
+    </div>
+  </form>
+</div>
     
     <section class="section">
         <div class="container">
             <div class="columns">
                 
                 <div class="column is-offset-4 is-4">
-                   {% if city_weather.cod == 200 %}
+                    {% if city_weather.name == 'index' %}
+                        <h2>Search You City Here</h3>
+                    {% elif city_weather.cod == '404' %}
+                            <h5>Please Enter a valid City Name</h5>
+                    {% elif city_weather.cod == '400' %}
+                            <h5>Please Enter a valid City Name</h5>
+                    {% else %}
+                        
                     <div class="box">
-                        <div class="bg-dark">
-
-                        <h1 style="text-align: center;"><b> Weather in  {{ city_weather.city }}</b></h1>
+                        <hr>
+                        <h3 style="text-align: center;"><b> Weather in  {{ city_weather.city }}</b></h3>
                                     <div style="height: 50%;width: 50%">
                                     <img src="https://openweathermap.org/img/wn/{{ city_weather.icon }}.png" alt="Image">
                                     </div>
-                                <b>{{ city_weather.temperature }} °C<br> {{ city_weather.description }}</b><hr>
-                        </div>
+                        
+                                <b>{{ city_weather.temperature }} °C<br> {{ city_weather.description }}</b>
+                        <hr>
                                         <p>Wind : {{ city_weather.Wind }}</p>
                                         <p>Pressure : {{ city_weather.Pressure }} </p>
                                         <p>Humidity : {{ city_weather.Humidity }}</p>
@@ -67,10 +74,8 @@
                                
                         </div>
                         </article>
-                        {% elif city_weather.cod == '404' %}
-                        <h1>Please Enter a valid City Name</h1>
-                        {% else %}
-                            <h1>{{city_weather.cod}}</h1>
+                        
+                    
                         {% endif %}
                     </div>
                     
